@@ -17,7 +17,9 @@ describe Capistrano::Systemd::MultiService::UserService do
         File.expects(:read).with("config/systemd/example1.service.erb").returns("dummy")
         StringIO.expects(:new).with("dummy").returns(buf)
 
-        backend.expects(:upload!).with(buf, "/home/user/.config/systemd/user/foo_example1.service")
+        backend.expects(:execute).with(:mkdir, "-p", "/home/user/.config/systemd/user")
+        backend.expects(:execute).with(:loginctl, "enable-linger")
+        backend.expects(:upload!).with(buf, "/home/user/.config/systemd/user/foo_production-example1.service")
 
         subject.setup
       end
@@ -25,7 +27,7 @@ describe Capistrano::Systemd::MultiService::UserService do
 
     describe "#remove" do
       it "should uninstall unit file" do
-        backend.expects(:execute).with(:rm, '-f', '--', ["/home/user/.config/systemd/user/foo_example1.service"])
+        backend.expects(:execute).with(:rm, '-f', '--', ["/home/user/.config/systemd/user/foo_production-example1.service"])
 
         subject.remove
       end
@@ -41,13 +43,17 @@ describe Capistrano::Systemd::MultiService::UserService do
         File.expects(:read).with("config/systemd/example2.service.erb").returns("dummy1")
         StringIO.expects(:new).with("dummy1").returns(buf1)
 
-        backend.expects(:upload!).with(buf1, "/home/user/.config/systemd/user/foo_example2.service")
+        backend.expects(:execute).with(:mkdir, "-p", "/home/user/.config/systemd/user")
+        backend.expects(:execute).with(:loginctl, "enable-linger")
+        backend.expects(:upload!).with(buf1, "/home/user/.config/systemd/user/foo_staging-example2.service")
 
         buf2 = stub
         File.expects(:read).with("config/systemd/example2@.service.erb").returns("dummy2")
         StringIO.expects(:new).with("dummy2").returns(buf2)
 
-        backend.expects(:upload!).with(buf2, "/home/user/.config/systemd/user/foo_example2@.service")
+        backend.expects(:execute).with(:mkdir, "-p", "/home/user/.config/systemd/user")
+        backend.expects(:execute).with(:loginctl, "enable-linger")
+        backend.expects(:upload!).with(buf2, "/home/user/.config/systemd/user/foo_staging-example2@.service")
 
         subject.setup
       end
@@ -55,7 +61,7 @@ describe Capistrano::Systemd::MultiService::UserService do
 
     describe "#remove" do
       it "should uninstall unit file" do
-        backend.expects(:execute).with(:rm, '-f', '--', ["/home/user/.config/systemd/user/foo_example2.service", "/home/user/.config/systemd/user/foo_example2@.service"])
+        backend.expects(:execute).with(:rm, '-f', '--', ["/home/user/.config/systemd/user/foo_staging-example2.service", "/home/user/.config/systemd/user/foo_staging-example2@.service"])
 
         subject.remove
       end
@@ -71,7 +77,9 @@ describe Capistrano::Systemd::MultiService::UserService do
         File.expects(:read).with("config/systemd/example3@.service.erb").returns("dummy2")
         StringIO.expects(:new).with("dummy2").returns(buf2)
 
-        backend.expects(:upload!).with(buf2, "#{systemd_dir}/foo_example3@.service")
+        backend.expects(:execute).with(:mkdir, "-p", "/home/user/.config/systemd/user")
+        backend.expects(:execute).with(:loginctl, "enable-linger")
+        backend.expects(:upload!).with(buf2, "#{systemd_dir}/foo_production-example3@.service")
 
         subject.setup
       end
@@ -79,7 +87,7 @@ describe Capistrano::Systemd::MultiService::UserService do
 
     describe "#remove" do
       it "should uninstall unit file" do
-        backend.expects(:execute).with(:rm, '-f', '--', ["#{systemd_dir}/foo_example3@.service"])
+        backend.expects(:execute).with(:rm, '-f', '--', ["#{systemd_dir}/foo_production-example3@.service"])
 
         subject.remove
       end

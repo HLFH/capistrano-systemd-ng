@@ -16,7 +16,7 @@ describe Capistrano::Systemd::MultiService::SystemService do
         StringIO.expects(:new).with("dummy").returns(buf)
 
         backend.expects(:upload!).with(buf, "/tmp/example1.service")
-        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example1.service", "/etc/systemd/system/foo_example1.service")
+        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example1.service", "/etc/systemd/system/foo_production-example1.service")
         backend.expects(:execute).with(:rm, "/tmp/example1.service")
 
         subject.setup
@@ -25,7 +25,7 @@ describe Capistrano::Systemd::MultiService::SystemService do
 
     describe "#remove" do
       it "should uninstall unit file" do
-        backend.expects(:sudo).with(:rm, '-f', '--', ["/etc/systemd/system/foo_example1.service"])
+        backend.expects(:sudo).with(:rm, '-f', '--', ["/etc/systemd/system/foo_production-example1.service"])
 
         subject.remove
       end
@@ -42,7 +42,7 @@ describe Capistrano::Systemd::MultiService::SystemService do
         StringIO.expects(:new).with("dummy1").returns(buf1)
 
         backend.expects(:upload!).with(buf1, "/tmp/example2.service")
-        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example2.service", "/etc/systemd/system/foo_example2.service")
+        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example2.service", "/etc/systemd/system/foo_staging-example2.service")
         backend.expects(:execute).with(:rm, "/tmp/example2.service")
 
         buf2 = stub
@@ -50,7 +50,7 @@ describe Capistrano::Systemd::MultiService::SystemService do
         StringIO.expects(:new).with("dummy2").returns(buf2)
 
         backend.expects(:upload!).with(buf2, "/tmp/example2@.service")
-        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example2@.service", "/etc/systemd/system/foo_example2@.service")
+        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example2@.service", "/etc/systemd/system/foo_staging-example2@.service")
         backend.expects(:execute).with(:rm, "/tmp/example2@.service")
 
         subject.setup
@@ -59,7 +59,7 @@ describe Capistrano::Systemd::MultiService::SystemService do
 
     describe "#remove" do
       it "should uninstall unit file" do
-        backend.expects(:sudo).with(:rm, '-f', '--', ["/etc/systemd/system/foo_example2.service", "/etc/systemd/system/foo_example2@.service"])
+        backend.expects(:sudo).with(:rm, '-f', '--', ["/etc/systemd/system/foo_staging-example2.service", "/etc/systemd/system/foo_staging-example2@.service"])
 
         subject.remove
       end
@@ -76,7 +76,7 @@ describe Capistrano::Systemd::MultiService::SystemService do
         StringIO.expects(:new).with("dummy2").returns(buf2)
 
         backend.expects(:upload!).with(buf2, "/tmp/example3@.service")
-        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example3@.service", "/etc/systemd/system/foo_example3@.service")
+        backend.expects(:sudo).with(:install, "-m 644 -o root -g root -D", "/tmp/example3@.service", "/etc/systemd/system/foo_production-example3@.service")
         backend.expects(:execute).with(:rm, "/tmp/example3@.service")
 
         subject.setup
@@ -85,7 +85,7 @@ describe Capistrano::Systemd::MultiService::SystemService do
 
     describe "#remove" do
       it "should uninstall unit file" do
-        backend.expects(:sudo).with(:rm, '-f', '--', ["/etc/systemd/system/foo_example3@.service"])
+        backend.expects(:sudo).with(:rm, '-f', '--', ["/etc/systemd/system/foo_production-example3@.service"])
 
         subject.remove
       end
