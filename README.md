@@ -1,15 +1,16 @@
-# capistrano-systemd-multiservice
+# capistrano-systemd-ng
 
-[![Gem Version](https://badge.fury.io/rb/capistrano-systemd-multiservice.png)](https://rubygems.org/gems/capistrano-systemd-multiservice) [![CI](https://github.com/groovenauts/capistrano-systemd-multiservice/actions/workflows/ci.yml/badge.svg)](https://github.com/groovenauts/capistrano-systemd-multiservice/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/capistrano-systemd-ng.png)](https://rubygems.org/gems/capistrano-systemd-ng) [![CI](https://github.com/HLFH/capistrano-systemd-ng/actions/workflows/ci.yml/badge.svg)](https://github.com/HLFH/capistrano-systemd-ng/actions/workflows/ci.yml)
 
 This gem adds capistrano tasks to control multiple services with systemd.
+This gem supports capistrano > 3.17.0.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'capistrano-systemd-multiservice', require: false
+gem 'capistrano-systemd-ng', require: false
 ```
 
 And then execute:
@@ -18,7 +19,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install capistrano-systemd-multiservice
+    $ gem install capistrano-systemd-ng
 
 ## Usage
 
@@ -299,5 +300,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/groovenauts/capistrano-systemd-multiservice.
+Bug reports and pull requests are welcome on GitHub at https://github.com/HLFH/capistrano-systemd-ng.
 
