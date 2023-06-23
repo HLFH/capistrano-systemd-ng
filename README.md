@@ -1,6 +1,6 @@
 # capistrano-systemd-ng
 
-[![Gem Version](https://badge.fury.io/rb/capistrano-systemd-ng.svg)](https://rubygems.org/gems/capistrano-systemd-ng) [![CI](https://github.com/HLFH/capistrano-systemd-ng/actions/workflows/ci.yml/badge.svg)](https://github.com/HLFH/capistrano-systemd-ng/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/capistrano-systemd-ng.png)](https://rubygems.org/gems/capistrano-systemd-ng) [![CI](https://github.com/HLFH/capistrano-systemd-ng/actions/workflows/ci.yml/badge.svg)](https://github.com/HLFH/capistrano-systemd-ng/actions/workflows/ci.yml)
 
 This gem adds capistrano tasks to control multiple services with systemd.
 This gem supports capistrano > 3.17.0.
