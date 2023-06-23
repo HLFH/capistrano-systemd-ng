@@ -23,7 +23,13 @@ Or install it yourself as:
 
 ## Usage
 
-Add these lines to your Capfile:
+Please activate the Capistrano `app`role in `config/deploy/staging.rb`and/or `config/deploy/production.rb`:
+```
+ role :app, %w{deploy@example.com}
+```
+Replace `example.com` by the domain name used by your server.
+
+And add these lines to your Capfile:
 
 ```ruby
 require "capistrano/systemd/multiservice"
