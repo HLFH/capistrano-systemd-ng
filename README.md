@@ -83,6 +83,40 @@ If using the user service type services will be installed in your users home dir
 Systemd commands on those services can be run by passing a `--user` flag, e.g. ```systemctl --user list-unit-files```
 Nothing else in setup should require change and Capistrano tasks should remain the same as when installing system services.
 
+Example of user service in `config/systemd/passenger.service.erb`:
+```
+[Unit]
+Description=Passenger Standalone Application Server for <%= fetch(:application) %>
+After=network.target
+
+[Service]
+Type=forking
+Environment=RAILS_ENV=<%= fetch(:rails_env) %>
+Environment=PWD=<%= current_path %>
+WorkingDirectory=<%= current_path %>
+PIDFile=/run/passenger/devopsy.pid
+ExecStart=/home/deploy/.asdf/bin/asdf exec bundle exec passenger start -d --pid-file /run/passenger/devopsy.pid -e production -p 3002 --instance-registry-dir /run/passenger
+ExecStop=/home/deploy/.asdf/bin/asdf exec bundle exec passenger stop --pid-file /run/passenger/devopsy.pid
+PrivateTmp=yes
+
+[Install]
+WantedBy=default.target
+``` 
+For user services, the target should be `default.target`, not `multi-user.target`.
+And no `User` or `Group` should be mentioned to avoid errors.
+
+It is in `config/deploy.rb` that you should have the user set, and for that example:
+```
+set :user, "deploy"
+after 'deploy:publishing', 'systemd:passenger:restart'
+```
+
+And in the `Capfile`, you should have these:
+```
+require "capistrano/systemd/multiservice"
+install_plugin Capistrano::Systemd::MultiService.new_service("passenger", service_type: "user")
+```
+
 ## Capistrano Tasks
 
 With `install_plugin Capistrano::Systemd::MultiService.new_service("example1")`,
