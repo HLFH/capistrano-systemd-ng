@@ -77,7 +77,7 @@ module Capistrano
 
         def setup
           fetch(:"#{prefix}_units_src").zip(fetch(:"#{prefix}_units_dest")).each do |src, dest|
-            buf = StringIO.new(ERB.new(File.read(src), nil, 2).result(binding))
+            buf = StringIO.new(ERB.new(File.read(src), trim_mode: '-', eoutvar: '@output_buffer').result(binding))
             setup_service buf, src, dest
           end
         end
